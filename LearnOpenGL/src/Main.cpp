@@ -14,10 +14,18 @@ const unsigned int SCREEN_HEIGHT = 600;
 
 // Triangle vertices
 
+// clang-format off
 const float vertices[] = {
-		-0.5f, -0.5f, 0.0f,
-		0.5f, -0.5f, 0.0f,
-		0.0f, 0.5f, 0.0f};
+		// first triangle
+		-1.0f, -0.5f, 0.0f,
+		0.0f, -0.5f, 0.0f,
+		-0.45f, 0.5f, 0.0f,
+		// second triangle
+		0.0f, -0.5f, 0.0f,
+		1.0f, -0.5f, 0.0f,
+		0.45f, 0.5f, 0.0f
+};
+// clang-format on
 
 // Hacking in the shaders for now
 const char* vertexShaderSource = "#version 330 core\n"
@@ -138,7 +146,7 @@ int main()
 		// Triangle
 		glUseProgram(shaderProgram);
 		glBindVertexArray(VAO);
-		glDrawArrays(GL_TRIANGLES, 0, 3);
+		glDrawArrays(GL_TRIANGLES, 0, 6);
 
 		// Swap The Buffers
 		glfwSwapBuffers(window);
