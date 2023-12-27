@@ -13,18 +13,17 @@ const unsigned int SCREEN_WIDTH = 800;
 const unsigned int SCREEN_HEIGHT = 600;
 
 // Triangle vertices
-
 // clang-format off
-const float vertices[] = {
-		// first triangle
+const float firstTriangleVertices[] = {
 		-1.0f, -0.5f, 0.0f,
 		0.0f, -0.5f, 0.0f,
 		-0.45f, 0.5f, 0.0f,
-		// second triangle
+};
+
+const float secondTriangleVertices[] = {
 		0.0f, -0.5f, 0.0f,
 		1.0f, -0.5f, 0.0f,
-		0.45f, 0.5f, 0.0f
-};
+		0.45f, 0.5f, 0.0f};
 // clang-format on
 
 // Hacking in the shaders for now
@@ -127,7 +126,18 @@ int main()
 	glGenBuffers(1, &VBO);
 	glBindVertexArray(VAO);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(firstTriangleVertices), firstTriangleVertices, GL_STATIC_DRAW);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), nullptr);
+	glEnableVertexAttribArray(0);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindVertexArray(0);
+
+	unsigned int VBO2, VAO2;
+	glGenVertexArrays(1, &VAO2);
+	glGenBuffers(1, &VBO2);
+	glBindVertexArray(VAO2);
+	glBindBuffer(GL_ARRAY_BUFFER, VBO2);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(secondTriangleVertices), secondTriangleVertices, GL_STATIC_DRAW);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), nullptr);
 	glEnableVertexAttribArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -146,7 +156,9 @@ int main()
 		// Triangle
 		glUseProgram(shaderProgram);
 		glBindVertexArray(VAO);
-		glDrawArrays(GL_TRIANGLES, 0, 6);
+		glDrawArrays(GL_TRIANGLES, 0, 3);
+		glBindVertexArray(VAO2);
+		glDrawArrays(GL_TRIANGLES, 0, 3);
 
 		// Swap The Buffers
 		glfwSwapBuffers(window);
