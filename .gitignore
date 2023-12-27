@@ -52,3 +52,6 @@ _deps
 
 # Debug Folders
 cmake-build-debug
+
+# Macos
+.DS_Store
