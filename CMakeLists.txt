@@ -3,4 +3,14 @@ project(LearnOpenGL2024)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_executable(LearnOpenGL2024 src/main.cpp)
+# GLFW
+set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
+set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
+set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
+add_subdirectory(External/glfw)
+
+# Executable
+add_executable(LearnOpenGL2024 LearnOpenGL/src/Main.cpp)
+
+# Linker
+target_link_libraries(LearnOpenGL2024 glfw)
