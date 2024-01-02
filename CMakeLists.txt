@@ -12,6 +12,9 @@ add_subdirectory(External/glfw)
 # GLAD
 add_subdirectory(External/glad)
 
+# stb
+add_subdirectory(External/stb)
+
 # Copy Resources folder to the build
 file(COPY Resources DESTINATION ${CMAKE_BINARY_DIR})
 
@@ -21,4 +24,4 @@ add_executable(LearnOpenGL2024 LearnOpenGL/src/Main.cpp
         LearnOpenGL/src/Shader/Shader.h)
 
 # Linker
-target_link_libraries(LearnOpenGL2024 glfw glad)
+target_link_libraries(LearnOpenGL2024 glfw glad stb)
