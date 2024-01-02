@@ -8,15 +8,12 @@ git clone git@github.com:facuevas/LearnOpenGL2024.git
 git submodule update --init --recursive # We build glfw from source
 ```
 
-To build the project terminal, run the following:
+To build with project, run the following commands on terminal in the root folder:
 ```
-mkdir build
-cd build
-cmake ..
-cmake --build . --target LearnOpenGL2024
+cmake -S . -B build
+cmake --build build
 ```
-
-To run, you can do the following (assuming you are still in the build directory):
+To run the application, run this command in the root folder:
 ```
-.\Debug\LearnOpenGL2024.exe # (or without .exe if not on Windows)
+build/LearnOpenGL2024
 ```
