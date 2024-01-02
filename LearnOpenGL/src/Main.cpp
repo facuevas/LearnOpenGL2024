@@ -18,9 +18,9 @@ const unsigned int SCREEN_HEIGHT = 600;
 
 // First three values is the position, next three is the color
 const float vertices[] = {
-		0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, // Red Bottom Right
-		-0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f,// Green Bottom Left
-		0.0f, 0.5f, 0.0f, 0.0f, 0.0f, 1.0f   // Blue Top
+		0.5f, -0.5f, 0.0f, // Bottom Right
+		-0.5f, -0.5f, 0.0f,// Bottom Left
+		0.0f, 0.5f, 0.0f,  // Top
 };
 
 int main()
@@ -74,12 +74,8 @@ int main()
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
 	// Position Attributes
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
-
-	// Color Attributes
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
-	glEnableVertexAttribArray(1);
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
