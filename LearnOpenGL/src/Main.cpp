@@ -143,6 +143,7 @@ int main()
 	shader.setInt("texture1", 0);
 	shader.setInt("texture2", 1);
 
+
 	// Render loop
 	while (!glfwWindowShouldClose(window))
 	{
@@ -157,6 +158,11 @@ int main()
 		glBindTexture(GL_TEXTURE_2D, texture1);
 		glActiveTexture(GL_TEXTURE1);
 		glBindTexture(GL_TEXTURE_2D, texture2);
+
+		// Rotating the smiley face
+		float time = glfwGetTime();
+		float offset =  sin(time);
+		shader.setFloat("pos", offset);
 
 		// Triangle
 		shader.use();
