@@ -10,6 +10,9 @@
 // Callbacks
 void FramebufferSizeCallback(GLFWwindow* window, int width, int height);
 void ProcessInput(GLFWwindow* window);
+void OffsetInput(GLFWwindow* window, float& offset);
+void IncreaseOffset(float& offset);
+void DecreaseOffset(float& offset);
 
 // Constants
 const unsigned int SCREEN_WIDTH = 800;
@@ -142,13 +145,13 @@ int main()
 	shader.use();
 	shader.setInt("texture1", 0);
 	shader.setInt("texture2", 1);
-
-
+	float offset = 1.0f;
 	// Render loop
 	while (!glfwWindowShouldClose(window))
 	{
 		// Input
 		ProcessInput(window);
+		OffsetInput(window, offset);
 
 		// Main Rendering
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
@@ -159,10 +162,7 @@ int main()
 		glActiveTexture(GL_TEXTURE1);
 		glBindTexture(GL_TEXTURE_2D, texture2);
 
-		// Rotating the smiley face
-		float time = glfwGetTime();
-		float offset =  sin(time);
-		shader.setFloat("pos", offset);
+		shader.setFloat("offset", offset);
 
 		// Triangle
 		shader.use();
@@ -195,4 +195,28 @@ void ProcessInput(GLFWwindow* window)
 	{
 		glfwSetWindowShouldClose(window, true);
 	}
+}
+
+void OffsetInput(GLFWwindow* window, float& offset)
+{
+	if (glfwGetKey(window, GLFW_KEY_UP))
+	{
+		IncreaseOffset(offset);
+	}
+	if (glfwGetKey(window, GLFW_KEY_DOWN))
+	{
+		DecreaseOffset(offset);
+	}
+}
+
+void IncreaseOffset(float& offset)
+{
+	if (offset > 1.0f) offset = 1.0f;
+	offset += 0.1f;
+}
+
+void DecreaseOffset(float& offset)
+{
+	if (offset < 0.0f) offset = 0.0f;
+	offset -= 0.1f;
 }
