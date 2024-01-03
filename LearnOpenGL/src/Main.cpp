@@ -142,9 +142,9 @@ int main()
 	}
 	stbi_image_free(data);
 
-	shader.use();
-	shader.setInt("texture1", 0);
-	shader.setInt("texture2", 1);
+	shader.Use();
+	shader.SetInt("texture1", 0);
+	shader.SetInt("texture2", 1);
 
 	// Render loop
 	while (!glfwWindowShouldClose(window))
@@ -171,7 +171,7 @@ int main()
 		glUniformMatrix4fv(rotationLocation, 1, GL_FALSE, glm::value_ptr(rotate));
 
 		// Triangle
-		shader.use();
+		shader.Use();
 		glBindVertexArray(VAO);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
