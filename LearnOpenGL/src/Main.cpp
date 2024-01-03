@@ -4,6 +4,9 @@
 #include <iostream>
 #include <filesystem>
 #include <stb_image.h>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 #include "Shader/Shader.h"
 // clang-format on
 
@@ -157,6 +160,15 @@ int main()
 		glBindTexture(GL_TEXTURE_2D, texture1);
 		glActiveTexture(GL_TEXTURE1);
 		glBindTexture(GL_TEXTURE_2D, texture2);
+
+		// Rotation
+		float timeValue = glfwGetTime();
+		glm::mat4 rotate = glm::mat4(1.0f);
+		rotate = glm::rotate(rotate, glm::radians(timeValue * 50), glm::vec3(0.0f, 0.0f, 1.0f));
+
+		// Get the rotation uniform location.
+		unsigned int rotationLocation = glGetUniformLocation(shader.ID, "rotation");
+		glUniformMatrix4fv(rotationLocation, 1, GL_FALSE, glm::value_ptr(rotate));
 
 		// Triangle
 		shader.use();
