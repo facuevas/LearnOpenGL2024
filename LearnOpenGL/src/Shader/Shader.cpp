@@ -34,45 +34,25 @@ Shader::Shader(const char* vertPath, const char* fragPath)
 
 	// Compile Shaders
 	unsigned int vertex, fragment;
-	int success;
-	char infoLog[512];
 
 	vertex = glCreateShader(GL_VERTEX_SHADER);
 	const char* vertexCode = vertCode.c_str();
 	glShaderSource(vertex, 1, &vertexCode, nullptr);
 	glCompileShader(vertex);
-
-	glGetShaderiv(vertex, GL_COMPILE_STATUS, &success);
-	if (!success)
-	{
-		glGetShaderInfoLog(vertex, 512, nullptr, infoLog);
-		std::cout << "ERROR - Vertex Compilation Failed" << infoLog << std::endl;
-	}
+	CheckCompileErrors(vertex, "VERTEX");
 
 	fragment = glCreateShader(GL_FRAGMENT_SHADER);
 	const char* fragmentCode = fragCode.c_str();
 	glShaderSource(fragment, 1, &fragmentCode, nullptr);
 	glCompileShader(fragment);
-
-	glGetShaderiv(fragment, GL_COMPILE_STATUS, &success);
-	if (!success)
-	{
-		glGetShaderInfoLog(fragment, 512, nullptr, infoLog);
-		std::cout << "ERROR - Fragment Compilation Failed" << infoLog << std::endl;
-	}
+	CheckCompileErrors(fragment, "FRAGMENT");
 
 	// Shader Program
 	ID = glCreateProgram();
 	glAttachShader(ID, vertex);
 	glAttachShader(ID, fragment);
 	glLinkProgram(ID);
-
-	glGetProgramiv(ID, GL_LINK_STATUS, &success);
-	if (!success)
-	{
-		glGetProgramInfoLog(ID, 512, nullptr, infoLog);
-		std::cout << "ERROR - Shader Linking Failed" << infoLog << std::endl;
-	}
+	CheckCompileErrors(ID, "PROGRAM");
 
 	// Cleanup
 	glDeleteShader(vertex);
@@ -142,4 +122,40 @@ void Shader::SetMat3(const std::string& name, const glm::mat3& value) const
 void Shader::SetMat4(const std::string& name, const glm::mat4& value) const
 {
 	glUniformMatrix4fv(glGetUniformLocation(ID, name.c_str()), 1, GL_FALSE, &value[0][0]);
+}
+
+void Shader::CheckCompileErrors(GLuint shader, const std::string& type)
+{
+	GLint success;
+	GLchar infoLog[1024];
+	if (type == "PROGRAM")
+	{
+		glGetProgramiv(shader, GL_LINK_STATUS, &success);
+		if (!success)
+		{
+			glGetProgramInfoLog(shader, 1024, nullptr, infoLog);
+			std::cout << "ERROR - Failed to compile the shader program.\n"
+					  << infoLog << std::endl;
+		}
+	}
+	if (type == "VERTEX")
+	{
+		glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
+		if (!success)
+		{
+			glGetShaderInfoLog(shader, 1024, nullptr, infoLog);
+			std::cout << "ERROR - Failed to compile the vertex shader program.\n"
+					  << infoLog << std::endl;
+		}
+	}
+	if (type == "FRAGMENT")
+	{
+		glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
+		if (!success)
+		{
+			glGetShaderInfoLog(shader, 1024, nullptr, infoLog);
+			std::cout << "ERROR - Failed to compile the fragment shader.\n"
+					  << infoLog << std::endl;
+		}
+	}
 }

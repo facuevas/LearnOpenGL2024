@@ -44,8 +44,8 @@ public:
 	void SetMat4(const std::string& name, const glm::mat4& value) const;
 
 private:
-	/** Print Errors */
-
+	/** Print Errors Util Function*/
+	void CheckCompileErrors(GLuint shader, const std::string& type);
 };
 
 #endif//LEARNOPENGL2024_SHADER_H
